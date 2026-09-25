@@ -1,0 +1,17 @@
+# Rest pose for the follower, in degrees (LeRobot so101_follower uses degrees, gripper 0 to 100).
+# ASSUMPTION: these are placeholders until the arm is calibrated. Set them by moving the arm by
+# hand to a folded, stable pose that rests on the desk, then reading the values with
+# scripts/safe_rest.py --show and pasting them here.
+#
+# max_joint_delta_deg: safe_rest.py refuses to move if any joint is further than this from the
+# rest pose, so it never sweeps across the desk. Guide the arm closer by hand first.
+
+pose:
+  shoulder_pan: 0.0
+  shoulder_lift: -95.0
+  elbow_flex: 95.0
+  wrist_flex: 60.0
+  wrist_roll: 0.0
+  gripper: 5.0
+max_joint_delta_deg: 45.0
+move_time_s: 3.0
