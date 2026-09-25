@@ -31,6 +31,7 @@ STAMP = ARM_DIR / ".state" / "cameras_ok"
 FFMPEG = Path("/opt/homebrew/opt/ffmpeg@8/bin/ffmpeg")
 FPS_MIN, FPS_MAX, DROP_MAX = 28.0, 31.0, 0.01
 LATE_S = 0.050  # a frame later than (1/fps + 50 ms) counts as a drop
+LATEST: dict = {}  # key -> latest frame, drawn by the main thread (macOS needs that)
 
 
 @dataclass
@@ -120,8 +121,7 @@ def measure(key: str, cam: dict, index: int, seconds: float, window: bool, out: 
             out.drops += 1
         if window:
             cv2.putText(frame, key, (12, 32), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2)
-            cv2.imshow(key, frame)
-            cv2.waitKey(1)
+            LATEST[key] = frame
     cap.release()
     out.frames = len(out.samples)
     elapsed = sum(out.samples) or 1e-9
@@ -186,10 +186,16 @@ def main() -> int:
         print(f"Measuring {len(threads)} camera(s) for {args.seconds:.0f} s ...")
         for t in threads:
             t.start()
-        for t in threads:
-            t.join()
+        while any(t.is_alive() for t in threads):
+            if args.no_window:
+                time.sleep(0.1)
+                continue
+            for key, frame in list(LATEST.items()):
+                cv2.imshow(key, frame)
+            cv2.waitKey(30)
         if not args.no_window:
             cv2.destroyAllWindows()
+            cv2.waitKey(1)
 
     if changed:
         CONFIG.write_text(yaml.safe_dump(cfg, sort_keys=False))
