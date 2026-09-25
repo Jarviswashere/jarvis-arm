@@ -9,7 +9,7 @@
 
 cameras:
   scene:
-    name: ""
+    name: "Samsung SlimFit Cam"
     index: 0
     width: 640
     height: 480

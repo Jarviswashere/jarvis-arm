@@ -86,7 +86,11 @@ def resolve_index(key: str, cam: dict, os_names: list[str]) -> tuple[int | None,
 def measure(key: str, cam: dict, index: int, seconds: float, window: bool, out: Result) -> None:
     cap = cv2.VideoCapture(index, cv2.CAP_AVFOUNDATION)
     if not cap.isOpened():
-        out.status, out.reason = "FAIL", "could not open (camera permission? another app using it?)"
+        out.status = "FAIL"
+        out.reason = (
+            "could not open. Allow camera access for this terminal app in System Settings > "
+            "Privacy & Security > Camera, restart it, and close any app using the camera."
+        )
         return
     cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, int(cam["width"]))
