@@ -1,0 +1,26 @@
+# Cameras used by teleop, record and rollout. Edited by scripts/check_cameras.py.
+#
+# name: the device name macOS reports (see `ffmpeg -f avfoundation -list_devices true -i ""`
+#       or the list check_cameras.py prints). Used to find the camera again after a replug.
+# index: last known OpenCV index. Rewritten by check_cameras.py when it changes.
+# required: false means the check is reported as SKIPPED instead of FAIL when the camera
+#       is absent. Set to true once the camera is on the desk for good.
+# note: free text, for example the usable focus distance.
+
+cameras:
+  scene:
+    name: ""
+    index: 0
+    width: 640
+    height: 480
+    fps: 30
+    required: true
+    note: fixed USB webcam, looks at the whole workspace
+  wrist:
+    name: ""
+    index: 1
+    width: 640
+    height: 480
+    fps: 30
+    required: false
+    note: Waveshare IMX179 on the gripper, fixed focus, usable distance to be measured
