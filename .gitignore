@@ -1,0 +1,17 @@
+# secrets and machine-specific values
+.env
+# virtual environment
+.venv/
+# python
+__pycache__/
+*.pyc
+.ruff_cache/
+# LeRobot outputs and large data
+outputs/
+datasets/
+*.mp4
+*.parquet
+# state written by tools
+.state/
+# macOS
+.DS_Store
