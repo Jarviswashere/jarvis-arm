@@ -8,11 +8,17 @@ Status: PLAN. Wiring photo and test results are added once the switch is on the 
 
 Two 12V 3A adapters, one per driver board. Each adapter's 12V line goes through one normally closed (NC) contact of one mushroom e-stop switch (22 mm panel type, two NC contacts). Pressing the switch opens both contacts, so both boards lose motor power at the same moment.
 
+```mermaid
+flowchart LR
+    a["Adapter A, 12V 3A"] ==>|"+12V"| c1["NC contact 1"] ==> bA["Driver board A, follower"]
+    b["Adapter B, 12V 3A"] ==>|"+12V"| c2["NC contact 2"] ==> bB["Driver board B, leader"]
+    btn{{"One mushroom button<br>opens both contacts"}} -.- c1
+    btn -.- c2
+    mac["Mac, USB"] -->|"stays connected"| bA
+    mac -->|"stays connected"| bB
 ```
-adapter A  +12V ──[ NC contact 1 ]── driver board A (follower)
-adapter B  +12V ──[ NC contact 2 ]── driver board B (leader)
-GND lines stay connected. USB stays connected.
-```
+
+GND lines stay connected. USB stays connected. Only the two +12V wires pass through the switch.
 
 Parts: mushroom switch with 2 NC blocks, 2 barrel jack extension cables (cut the +12V wire, crimp to the contact), a small box or the desk edge to mount it.
 

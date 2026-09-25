@@ -4,6 +4,17 @@ LeRobot tooling for a pair of SO-101 arms (leader and follower) on a Mac mini M4
 
 Pinned: LeRobot 0.6.1, Python 3.12, torch 2.11 (MPS). See `requirements.lock`.
 
+## How it fits together
+
+```mermaid
+flowchart LR
+    ids["Set motor IDs"] --> cal["Calibrate"] --> tele["Teleop"] --> rec["Record 50+ episodes"] --> hub["Hugging Face Hub"]
+    hub --> train["Train ACT on a cloud GPU"] --> pol["Policy on the Hub"] --> run["Run on the Mac"] --> score["20 trials, one score"]
+    score -->|"too low: better data"| rec
+```
+
+Six diagrams with notes on what to learn from each: [docs/architecture.md](docs/architecture.md). Hardware wiring, the joint chain and motor IDs, what a recorded frame holds, what the policy does at run time.
+
 ## Install
 
 Tested on macOS 26.5, Apple Silicon. Takes about 5 minutes on a normal connection.

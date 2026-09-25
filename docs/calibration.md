@@ -31,6 +31,11 @@ lerobot-setup-motors --robot.type=so101_follower --robot.port=$FOLLOWER_PORT
 lerobot-setup-motors --teleop.type=so101_leader --teleop.port=$LEADER_PORT
 ```
 
+```mermaid
+flowchart LR
+    base["Base"] --> m1["1 shoulder_pan"] --> m2["2 shoulder_lift"] --> m3["3 elbow_flex"] --> m4["4 wrist_flex"] --> m5["5 wrist_roll"] --> m6["6 gripper"]
+```
+
 Order, and the ID the tool gives: gripper 6, wrist_roll 5, wrist_flex 4, elbow_flex 3, shoulder_lift 2, shoulder_pan 1. Put a tape label with the ID on each motor before it goes into the arm. The tool also sets the baud rate. If a motor is not found, check the cable and that only one motor is plugged in.
 
 ## 3. Assemble
