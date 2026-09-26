@@ -36,7 +36,7 @@ if [ "${1:-}" != "--no-cameras" ]; then
   CAM_ARGS=(--robot.cameras="$CAMERAS" --display_data=true)
 fi
 
-CMD=(lerobot-teleoperate
+CMD=(python -m lerobot.scripts.lerobot_teleoperate
   --robot.type=so101_follower --robot.port="$FOLLOWER_PORT" --robot.id="$FOLLOWER_ID"
   --teleop.type=so101_leader --teleop.port="$LEADER_PORT" --teleop.id="$LEADER_ID"
   --fps=30

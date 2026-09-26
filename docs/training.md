@@ -8,11 +8,11 @@ LeRobot submits the job itself when `--job.target` is set. Our wrapper:
 
 ```bash
 scripts/train_cloud.sh <dataset> <policy_name> [steps] [flavor]
-scripts/train_status.sh <job_id>
-scripts/train_status.sh <job_id> --logs
+scripts/train_status.py <job_id>
+scripts/train_status.py <job_id> --logs
 ```
 
-Needs once: `hf auth login` with a write token, and billing enabled on the account at https://huggingface.co/settings/billing. Without billing the submit fails.
+Needs once: `hf auth login` with a write token, and prepaid credits on the account (Add Credits at https://huggingface.co/settings/billing). $10 of credits was enough to start; no PRO subscription was needed.
 
 Defaults: ACT, 20,000 steps, flavor `l4x1`, timeout 4 h, wandb off, checkpoint pushed to `$HF_USER/<policy_name>`.
 
@@ -28,13 +28,13 @@ ACT needs 2 to 6 GB of VRAM. The T4 is the cheapest GPU but old and slow for the
 | a10g-large | A10G 24 GB, 12 vCPU | $1.50 | SmolVLA |
 | a100-large | A100 80 GB | $2.50 | only if a run is too slow |
 
-Rough cost: ACT, 50 episodes, 20k steps on an L4 is a few hours, so a few dollars per run. Confirm below after the first run.
+Measured: 4.6 steps per second on an L4 with batch size 8 and 2 cameras. So 20k steps is about 75 minutes, about $1 per full ACT run, plus 2 minutes of container start. Cheap enough to train after every data round.
 
 ## Runs so far
 
 | Date | Dataset | Policy | Steps | Flavor | Wall time | Cost | Result |
 |---|---|---|---|---|---|---|---|
-| | | | | | | | not run yet |
+| 2026-09-26 | lerobot/svla_so101_pickplace (50 ep) | ChaptTwoTonyStark/act_smoke_test | 200 | l4x1 | 3 min submit to done, about 1.5 min billed | about $0.02 at $0.0133/min (confirm on the billing page) | done, loss 6.39 at step 200, 4.6 steps/s, 3.7 GB GPU memory |
 
 ## Fallback: RunPod
 

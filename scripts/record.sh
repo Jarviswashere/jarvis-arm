@@ -31,7 +31,7 @@ fi
 CAMERAS=$(python "$ARM_DIR/scripts/cameras_arg.py")
 hf auth whoami >/dev/null 2>&1 || { echo "FAIL: not logged in. Run: hf auth login" >&2; exit 1; }
 
-CMD=(lerobot-record
+CMD=(python -m lerobot.scripts.lerobot_record
   --robot.type=so101_follower --robot.port="$FOLLOWER_PORT" --robot.id="$FOLLOWER_ID"
   --teleop.type=so101_leader --teleop.port="$LEADER_PORT" --teleop.id="$LEADER_ID"
   --robot.cameras="$CAMERAS" --display_data=true

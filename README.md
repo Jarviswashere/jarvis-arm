@@ -95,7 +95,7 @@ Training runs in the cloud, not on the Mac.
 
 ```bash
 scripts/train_cloud.sh <dataset> <policy_name>
-scripts/train_status.sh <job>
+scripts/train_status.py <job>
 ```
 
 Hugging Face Jobs first, RunPod as fallback. Cost per run is written in `docs/training.md`.
@@ -109,5 +109,6 @@ Before any session: `scripts/preflight.py` and the e-stop test. Stop order: hard
 - macOS only. Linux would need a different ffmpeg path in `scripts/env.sh`.
 - Camera indexes can change after a replug. Rerun `check_cameras.py`.
 - `lerobot-find-port` is interactive only, no `--help`.
+- If the repo path has a space in it, the `lerobot-*` launchers are `/bin/sh` scripts, and macOS strips the ffmpeg library path from anything `/bin/sh` starts. torchcodec then prints a long warning and LeRobot falls back to the slower pyav decoder. The wrappers in `scripts/` avoid this by running `python -m lerobot.scripts.<name>` instead. From a shell, do the same, or clone into a path without spaces.
 - Training on the Mac (MPS) is possible but slow. Not used.
 - Some scripts named above are not written yet. Each one lands with its own doc and acceptance test.
