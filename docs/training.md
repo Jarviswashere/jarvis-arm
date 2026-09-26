@@ -34,6 +34,7 @@ Measured: 4.6 steps per second on an L4 with batch size 8 and 2 cameras. So 20k 
 
 | Date | Dataset | Policy | Steps | Flavor | Wall time | Cost | Result |
 |---|---|---|---|---|---|---|---|
+| 2026-09-26 | lerobot/pusht (206 ep, 1 camera) | ChaptTwoTonyStark/act_pusht_smoke | 5000 | l4x1 | 6.5 min submit to done, 4.5 min training at 18.7 steps/s | about $0.07 | done, loss 6.59 at step 200 to 2.24 at 800, later lines not kept by the log. Simulator: 0/10 success, mean best coverage 0.23 |
 | 2026-09-26 | lerobot/svla_so101_pickplace (50 ep) | ChaptTwoTonyStark/act_smoke_test | 200 | l4x1 | 3 min submit to done, about 1.5 min billed | about $0.02 at $0.0133/min (confirm on the billing page) | done, loss 6.39 at step 200, 4.6 steps/s, 3.7 GB GPU memory |
 
 ## Fallback: RunPod
@@ -54,6 +55,28 @@ Same command, different machine. Eight steps:
    ```
 7. Wait for "pushed to hub" in the log, then check https://huggingface.co/$HF_USER/<policy>.
 8. Stop the pod. It bills while it exists, not only while it trains.
+
+## Loss curve
+
+```bash
+scripts/loss_curve.py <job_id> --name <policy_name>
+```
+
+Reads the trainer's `step:N ... loss:X` lines from the job log and writes `outputs/curves/<name>.png` and `.csv`. Limit: Hugging Face keeps only the first and last part of a job log, so a long run shows only its first points. For a full curve on a real run, enable Weights and Biases: add `--wandb.enable=true` and set `WANDB_API_KEY` before submitting.
+
+## Try the loop in simulation first
+
+PushT is a small 2D task that ships with LeRobot. Same commands, no robot, no risk.
+
+```bash
+uv pip install --python .venv/bin/python "lerobot[pusht]"
+scripts/train_cloud.sh lerobot/pusht act_pusht_smoke 5000
+python -m lerobot.scripts.lerobot_eval --policy.path=$HF_USER/act_pusht_smoke --env.type=pusht \
+  --eval.n_episodes=10 --eval.batch_size=10 --eval.use_async_envs=false --policy.device=mps \
+  --output_dir=outputs/eval/act_pusht_smoke
+```
+
+`--eval.use_async_envs=false` is required on macOS, the multiprocessing workers die otherwise. Videos land in `outputs/eval/<name>/videos/`. 5000 steps of ACT gives 0 of 10 on this task; that is expected, ACT needs far longer here. The point is to see a loss curve and a rollout before the arm exists.
 
 ## Pull the policy to the Mac
 
