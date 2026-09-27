@@ -34,8 +34,8 @@ Measured: 4.6 steps per second on an L4 with batch size 8 and 2 cameras. So 20k 
 
 | Date | Dataset | Policy | Steps | Flavor | Wall time | Cost | Result |
 |---|---|---|---|---|---|---|---|
-| 2026-09-26 | lerobot/pusht (206 ep, 1 camera) | ChaptTwoTonyStark/act_pusht_smoke | 5000 | l4x1 | 6.5 min submit to done, 4.5 min training at 18.7 steps/s | about $0.07 | done, loss 6.59 at step 200 to 2.24 at 800, later lines not kept by the log. Simulator: 0/10 success, mean best coverage 0.23 |
-| 2026-09-26 | lerobot/svla_so101_pickplace (50 ep) | ChaptTwoTonyStark/act_smoke_test | 200 | l4x1 | 3 min submit to done, about 1.5 min billed | about $0.02 at $0.0133/min (confirm on the billing page) | done, loss 6.39 at step 200, 4.6 steps/s, 3.7 GB GPU memory |
+| 2026-09-26 | lerobot/pusht (206 ep, 1 camera) | ChaptTwoTonyStark/act_pusht_smoke | 5000 | l4x1 | 6.5 min submit to done, 4.5 min training at 18.7 steps/s | $0.12 for both runs together (billing page, 27 Sep); container start time is billed too | done, loss 6.59 at step 200 to 2.24 at 800, later lines not kept by the log. Simulator: 0/10 success, mean best coverage 0.23 |
+| 2026-09-26 | lerobot/svla_so101_pickplace (50 ep) | ChaptTwoTonyStark/act_smoke_test | 200 | l4x1 | 3 min submit to done, about 1.5 min billed | see row above, both runs $0.12 total | done, loss 6.39 at step 200, 4.6 steps/s, 3.7 GB GPU memory |
 
 ## Fallback: RunPod
 
